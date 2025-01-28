@@ -68,4 +68,4 @@ jobs:
           environment_name: 'api-test-eb-env'
           region: us-east-1
           version_label: v-${{ github.run_id }}
-          deployment_package: build/libs/api-test-1.0.0.jar  # Usar el artefacto descargado
+          deployment_package: api-test-1.0.0.jar  # Usar el artefacto descargado
