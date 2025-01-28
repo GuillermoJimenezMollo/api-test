@@ -36,14 +36,27 @@ jobs:
       - name: Verify JAR file
         run: ls build/libs/
 
-      # Iniciar el servidor Spring Boot para pruebas locales
-      - name: Start Spring Boot Server
-        run: |
-          nohup java -jar build/libs/*.jar & # Usar el JAR generado
-        env:
-          SPRING_PROFILES_ACTIVE: test
+      # Guardar el artefacto para despliegue
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: spring-boot-app
+          path: build/libs/*.jar
 
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
 
+    steps:
+      # Descargar el artefacto del trabajo de construcción
+      - name: Download Build Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: spring-boot-app
+
+      # Verificar el archivo descargado
+      - name: Verify Downloaded Artifact
+        run: ls
 
       # Desplegar en Elastic Beanstalk
       - name: Deploy to Elastic Beanstalk
@@ -55,4 +68,4 @@ jobs:
           environment_name: 'api-test-eb-env'
           region: us-east-1
           version_label: v-${{ github.run_id }}
-          deployment_package: build/libs/api-test-1.0.0.jar # Archivo que será desplegado
+          deployment_package: build/libs/api-test-1.0.0.jar # Usar el artefacto descargado
