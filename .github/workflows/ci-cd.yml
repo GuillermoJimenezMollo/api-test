@@ -64,7 +64,7 @@ jobs:
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           application_name: 'api-test-eb'
-          environment_name: 'api-test-eb-env'
+          environment_name: 'api-test-eb-env-1'
           region: us-east-1
           version_label: v-${{ github.run_id }}
           deployment_package: api-test-1.0.0.jar  # Usar el artefacto descargado
